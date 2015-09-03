@@ -1,0 +1,44 @@
+{
+  "name": "targetout",
+  "title": "Frozen View of Detached Target",
+  "id": "targetout@code.google.com",
+  "description": "Button to view only one target of page if it is FRAME, DIV or TABLE node.",
+  "author": "kannoner@gmail.com",
+  "preferences-branch": "targetout",
+   "preferences": [
+  {
+   "name": "dependentdlg", 
+   "title": "Snippet Window is Bound to Sender", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "name": "frozenview", 
+   "title": "Removes All Scripts Tags", 
+   "type": "bool", 
+   "value": true
+  }, 
+  {
+   "name": "prior4sel", 
+   "title": "Selected Node as Target", 
+   "type": "bool", 
+   "value": true
+  }, 
+  {
+   "name": "click2hash", 
+   "title": "Target of Click to Target of Page", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "hidden": true, 
+   "name": "boxabletags", 
+   "title": "It lists type of nodes are container.", 
+   "type": "string", 
+   "value": "table div p article footer header section"
+  }
+ ], 
+  "icon64": "hash64.png",
+  "license": "MPL 2.0",
+  "version": "0.1"
+}

@@ -1,0 +1,56 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+</head>
+<style type="text/css">
+	[customizing] toolbar[id] toolbarbutton[image^="chrome://targetout/skin/"],
+    panelview toolbarbutton[image^="chrome://targetout/skin/"] {
+		list-style-image: url("chrome://targetout/skin/image.png")
+    }
+    panelview toolbarbutton[image^="chrome://targetout/skin/"]:active {
+        list-style-image: url("chrome://targetout/skin/amigo.png")
+    }
+	toolbar[id] toolbarbutton[image^="chrome://targetout/skin/"] {
+		list-style-image: url("chrome://targetout/skin/socks3.png");
+        -moz-image-region: rect(0px 16px 16px 0px);
+	}
+	toolbar[id] toolbarbutton[image^="chrome://targetout/skin/"]:active {
+		list-style-image: url("chrome://targetout/skin/socks3.png");
+        -moz-image-region: rect(0px 32px 16px 16px);
+	}
+	toolbar[id] toolbarbutton[image^="chrome://targetout/skin/"][disabled]:active,
+	toolbar[id] toolbarbutton[image^="chrome://targetout/skin/"][disabled] {
+		list-style-image: url("chrome://targetout/skin/socks3.png");
+        -moz-image-region: rect(0px 48px 16px 32px);
+	}
+</style>
+<body>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+    const ISBN_PLACE = '[image^="chrome://targetout/skin/"]';
+		var thenode = null, theframe = window.frameElement;
+		var docum = window.document.documentElement;
+		if (docum) {
+			thenode = docum.querySelector("style[type]");
+			if (thenode) thenode = thenode.cloneNode(true);
+		}
+			docum = ((window.top || {}).document || {}).documentElement;
+
+		if (thenode && docum && theframe)
+		try {
+			var thestr = thenode.textContent;
+			var sharp = "#".concat(theframe.title || theframe.className);
+			thestr = thestr.replace(ISBN_PLACE, sharp, "g");
+			thenode.textContent = thestr;	//	only once
+			thenode.className = theframe.className;
+//	window.top.console.log("_dvk_dbg_, main bro: ", thestr);
+//				window.top.console.log(docum);		
+			docum.insertBefore(thenode, docum.firstElementChild);
+		}
+		finally {
+			theframe.parentNode.removeChild(theframe)
+		}
+	}
+</script>
+</html>
