@@ -2,6 +2,7 @@
   "name": "targetout",
   "title": "Frozen View of Detached Target",
   "id": "targetout@code.google.com",
+  "homepage": "http://github.com/kannoner/targetout/",
   "description": "Button to view only one target of page if it is FRAME, DIV or TABLE node.",
   "author": "kannoner@gmail.com",
   "preferences-branch": "targetout",
