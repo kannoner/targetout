@@ -48,7 +48,6 @@ if (thebody) (function() {
 //	Content scripts receive a detach message when 
 //		the add-on that attached them is disabled or removed: 
     self.port.on( "detach", function() {
-	dump("_dvk_dbg_, detach event of content script.\n");
         thebody.removeEventListener("click", handleEvent, true);
         thebody.removeEventListener("contextmenu", handleEvent, true);
     } );

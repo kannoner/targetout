@@ -3,19 +3,19 @@
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <setting dir="reverse" pref="extensions.targetout.dependentdlg" pref-name="dependentdlg" 
-			title="Snippet Window is Bound to Sender" type="bool"
+			title="Snippet Window is Bound to Sender" type="bool" class="targetout" 
 			desc="A dependent window closes and minimizes with the browser window." />
 
   <setting dir="reverse" pref="extensions.targetout.frozenview" pref-name="frozenview" 
-			title="Removes All Scripts Tags" type="bool"
+			title="Removes All Scripts Tags" type="bool" class="targetout" 
 			desc="SCRIPT and IFRAME tags are erased from snippet view." />
-    
+
   <setting dir="reverse" pref="extensions.targetout.prior4sel" pref-name="prior4sel" 
-			title="Selected Node as Target" type="bool"
+			title="Selected Node as Target" type="bool" class="targetout" 
 			desc="Use selected node as target (hash) of page to precedence of those." />
-    
+
   <setting dir="reverse" pref="extensions.targetout.click2hash" pref-name="click2hash" 
-			title="Target of Click to Target of Page" type="bool"
-			desc="Google Map and Video interest it (experimental), independently of the choice it is inactive if the button is hidden." />
-	
+			title="Target of Click to Target of Page" type="bool" class="targetout" 
+	desc="Google Map and Video interest it (experimental), independently of the choice it is inactive if the button is hidden." />
+
 </vbox>
