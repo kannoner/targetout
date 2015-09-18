@@ -24,33 +24,8 @@
         -moz-image-region: rect(0px 48px 16px 32px);
 	}
 </style>
-<body>
+<body title="Frozen View of Detached Target">
 </body>
-<script type="text/javascript">
-    window.onload = function() {
-    const ISBN_PLACE = '[image^="chrome://targetout/skin/"]';
-		var thenode = null, theframe = window.frameElement;
-		var docum = window.document.documentElement;
-		if (docum) {
-			thenode = docum.querySelector("style[type]");
-			if (thenode) thenode = thenode.cloneNode(true);
-		}
-			docum = ((window.top || {}).document || {}).documentElement;
-
-		if (thenode && docum && theframe)
-		try {
-			var thestr = thenode.textContent;
-			var sharp = "#".concat(theframe.title || theframe.className);
-			thestr = thestr.replace(ISBN_PLACE, sharp, "g");
-			thenode.textContent = thestr;	//	only once
-			thenode.className = theframe.className;
-//	window.top.console.log("_dvk_dbg_, main bro: ", thestr);
-//				window.top.console.log(docum);		
-			docum.insertBefore(thenode, docum.firstElementChild);
-		}
-		finally {
-			theframe.parentNode.removeChild(theframe)
-		}
-	}
+<script type="application/javascript" src="chrome://targetout/content/style.js">
 </script>
 </html>

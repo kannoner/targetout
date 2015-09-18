@@ -1,0 +1,77 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+</head>
+<script type="application/javascript">
+    Components.utils.import("resource://gre/modules/XPCOMUtils.jsm")
+    const STL_SEL = "style.targetout-toggle-btn[type]";
+    const LIB_ISBN = "targetout-toggle-btn"; // from main.js
+    const HTML_NS = "http://www.w3.org/1999/xhtml";
+    var theframe = window.frameElement,
+        thedoc = window.top.document;
+// window.top.console.log("_dvk_dbg_, setting frame: ", theframe.parentNode.tagName);
+ window.onload = function() {
+    theframe = theframe.parentNode;
+     try {
+        (thedoc.querySelector(STL_SEL) || {}
+            ).textContent = theframe.getAttribute("desc")
+    }
+    catch(err) {
+        Components.utils.reportError(err)
+    }
+    finally {
+        theframe.parentNode.removeChild(theframe)
+    }
+ }
+
+ if (thedoc && theframe)
+( function() {
+    theframe.onload = null; // remove guard since above
+    var thestr = [ "setting.targetout[type=", "bool", "]" ].join('"');
+    var thebox, target;
+    for (thebox of thedoc.querySelectorAll(thestr))
+    try {
+        target = thedoc.getAnonymousElementByAttribute(thebox, "anonid", "input");
+        if (target) {
+            target.label = thebox.getAttribute("title") || target.label;
+            thestr = thebox.getAttribute("desc") || "";
+                thebox.setAttribute("title", thestr);
+            (target.parentNode || {}).tooltipText = thestr;
+            thebox.removeAttribute("desc");	//  abox.setAttribute("desc", " ");
+            target.addEventListener( "command", function(eva) {
+                var thenode = eva.currentTarget;
+                if (thenode.checked)
+                    thenode.parentNode.setAttribute(
+                        "style", "background-color: ButtonFace;");
+                else
+                    thenode.parentNode.removeAttribute("style");
+            }, false );
+
+            if (target.checked)
+                target.parentNode.setAttribute("style", 
+                    "background-color: ButtonFace;");
+        }
+    }
+    catch(err) {
+        Components.utils.reportError(err)
+    }
+// window.top.console.log("_dvk_dbg_, frame style: ", thedoc.querySelector(STL_SEL));
+    if (!(thedoc.querySelector(STL_SEL))) try {
+    var thestyle = thedoc.createElementNS(HTML_NS, "style");
+        thestyle.setAttribute("type", "text/css");
+        thestyle.setAttribute("dir", "normal");
+        thestyle.className = LIB_ISBN;
+        thedoc.documentElement.insertBefore( thestyle, 
+            thedoc.documentElement.firstElementChild );
+    }
+    catch(err) {
+        Components.utils.reportError(err)
+    }
+
+}) ();
+
+ thedoc.getElementById("detail-controls").setAttribute("dir", "reverse");
+
+</script>
+<body></body>
+</html>

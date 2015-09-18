@@ -56,11 +56,14 @@
             default:
                 thenode = adoc.querySelector("*:link:hover");
                 let thestr1 = (thenode || {}).href;
-                let thestr2 = (adoc.activeElement || {}).href || "";
+                let thestr2 = (adoc.activeElement || {}).href;
                 if ((!thestr1) && (!thestr2)) {
-                    if (!(this.last)) break;
-                    if (Math.abs(Date.now() - this.last) < 666)
-                        break;
+                    thestr2 = (adoc.activeElement || {}).src || "";
+                    if (!thestr2) {
+                        if (!(this.last)) break;
+                        if (Math.abs(Date.now() - this.last) < 666)
+                            break;
+                    }
                 }
                 this.setStatusLabel(thestr1 || thestr2);
             }
