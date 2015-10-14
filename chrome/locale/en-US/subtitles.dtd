@@ -1,0 +1,15 @@
+<!ENTITY bodyColor.label "Body Color">
+<!ENTITY bodyColor.accesskey "B">
+<!ENTITY radioBlack.tooltip "black">
+<!ENTITY radioUnset.tooltip "transparent">
+<!ENTITY radioWhite.tooltip "white">
+<!ENTITY nickName.title "Frozen View of Detached Target">
+<!ENTITY chromeName.title "Tab's content is quite chrome.">
+<!ENTITY aboutDlg.tooltip "notification for current action">
+<!ENTITY dependentDlg.title "A Sub View is Bound to a Browser (Sender)">
+<!ENTITY dependentDlg.desc "A dependent view closes and minimizes with the main window (original page).">
+<!ENTITY frozenView.title "Sub Window without Scripts Tags">
+<!ENTITY frozenView.desc "The SCRIPT and IFRAME tags are erased from the view.">
+<!ENTITY prior4sel.title "Selected Node as Target">
+<!ENTITY prior4sel.desc "Prefers a selected node to the target (#hash) of the page.">
+<!ENTITY click2hash.title "Target of Click to Hash of Page">

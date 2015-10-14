@@ -77,7 +77,7 @@ if (thebody) (function() {
 	if(!theframe)
 	if (thenode) 
 		try {
-			var docum = (document.documentElement || document).cloneNode(true);
+			var docum = document.documentElement.cloneNode(true);
 			var newnode = thebody.cloneNode(false);
 		//	NOTE: first-of-type body will be more accurate?
 			var oldnode = docum.querySelector("body");
@@ -91,7 +91,10 @@ if (thebody) (function() {
                 thelst = docum.querySelectorAll(EXCLUDE_TAGS);
             for (newnode of thelst)
                 newnode.parentNode.removeChild(newnode);
-
+//  NOTE: DEBUG
+/*            window.setTimeout( function(anhtml) {
+                    document.documentElement.innerHTML = anhtml
+                }, 0, docum.innerHTML );    */
 			window.sessionStorage.setItem( LIB_ISBN, docum.innerHTML );
 		}
 		catch(err) { thestr = ERR_MSG2 }
@@ -125,7 +128,8 @@ if (thebody) (function() {
             var className = (thenode.className || "").trim();
 			if (className.length)
 			if (!(thehash.length) || (className.length < 33)) {
-				className = className.replace(' ', '+', 'g');
+				className = className.replace( new RegExp(' ', 'g'), '+' );
+//		className = className.replace(' ', '+', 'g');
 				tagName = [ tagName , className ].join('.');
 			}
 			Object.defineProperty( themsg, "tag", 

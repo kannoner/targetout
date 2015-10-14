@@ -1,0 +1,36 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+iframe {
+    box-sizing: border-box;
+	border: none;
+}
+
+iframe.fixed {
+    position: fixed;
+    width:    100%;
+	height:   100%;
+}
+
+iframe.flex {
+    display: -moz-box;
+    -moz-box-flex: 1;
+}
+
+description {
+    padding-left: 1.5ex;
+    padding-right: 1.5ex;
+    pointer-events: none;
+    -moz-box-align: end;
+}
+
+iframe.fixed ~ stack,
+iframe.flex ~ hbox {
+    visibility: collapse;
+}
+
+iframe.flex ~ stack,
+iframe.fixed ~ hbox {
+    visibility: visible;
+}

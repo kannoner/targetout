@@ -9,11 +9,14 @@ Components.utils.import("resource://gre/modules/XPCOMUtils.jsm")
 
 var thesub = { isbn: "",    //  tooltipText
     title: "Frozen View of Detached Target",
+    chrome:"Tab's content is quite chrome.",
+
     observer: null, btn: null,
 
     updateAttr : function(abtn) {
         abtn.setAttribute("image", "");
-        abtn.tooltipText = this.title;
+        abtn.tooltipText = (abtn.disabled
+                )? this.chrome : this.title;
     },
 
     resetEvent : function(abtn) {
@@ -21,13 +24,13 @@ var thesub = { isbn: "",    //  tooltipText
         var thebtn = this.btn;
         if (this.isbn) try {
             this.btn = null;
-            if (abtn) 
-                abtn.addEventListener(
+            if (abtn) (abtn
+                ).addEventListener(
                     "popupshowing", this, false);
             this.btn = abtn;
         } finally {
-            if (thebtn)
-                thebtn.removeEventListener(
+            if (thebtn) (thebtn
+                ).removeEventListener(
                     "popupshowing", this, false)
         }
         return;
@@ -210,8 +213,12 @@ try {
     themain.preLoad();
 //  window.top.console.log("_dvk_dbg_, preLoad frame: ", themain);
     window.onload = function() {
-        thesub.title = (document.body || this).title;
+        var elements = (document.forms[0] || {}).elements || {};
         themain.onCustomizeEnd(window.top);
+        if (elements) {
+            thesub.title = elements["title"].value || thesub.title;
+            thesub.chrome = elements["chrome"].value || thesub.chrome;
+        }
     }    
 }
 catch(err) {

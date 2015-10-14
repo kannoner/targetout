@@ -11,10 +11,9 @@
         anchor  : null,    //  document.popupNode
         menu    : false,
         label   : null,
-        frame   : null,
         last    : 0,
-        initialize: function(aframe, amenu) {
-            this.frame = aframe;
+
+        initialize: function(amenu) {
             document.addEventListener( "click", this, false );
             amenu.addEventListener( "popupshowing", this, false );
             this.label = document.querySelector("description[crop]");
@@ -24,11 +23,11 @@
             aval = (aval || "").trim();
             if (aval.length > 1) {
                 this.label.value = aval;
-                this.frame.className = "flex";
+                themain.frame.className = "flex";
                 this.last = Date.now();
             }
             else {
-                this.frame.className = "fixed";
+                themain.frame.className = "fixed";
                 this.last = 0;
             }
         },
@@ -71,13 +70,30 @@
         },  //  updateStatusPanel: function(adoc, eva)
 
         openUILink: function() {
-            if (this.href) openUILinkIn(this.href, "window")
+            let thestr = this.href || "";
+            if (!(thestr.length)) {
+                let thenode = document.querySelector("*:link:focus");
+                if (!thenode) thenode = (themain.frame
+                    ).contentDocument.querySelector("*:link:focus");
+                thestr = (thenode || {}).href || "";
+            }
+            
+            if (!((thestr.toLowerCase() || 'mailto:'
+                  ).startsWith('mailto:')))
+                    openUILinkIn(thestr, "window");
         },
     
         copyLink: function() {
             let clipboard = Components.classes["@mozilla.org/widget/clipboardhelper;1"].
                     getService(Components.interfaces.nsIClipboardHelper);
-            clipboard.copyString(this.href);    //  , document);
+            let thestr = this.href || "";
+            if (!(thestr.length)) {
+                let thenode = document.querySelector("*:link:focus");
+                if (!thenode) thenode = (themain.frame
+                    ).contentDocument.querySelector("*:link:focus");
+                thestr = (thenode || {}).href || "";
+            }
+            if (thestr) clipboard.copyString(thestr);
         },
 
         handleEvent : function(eva) {
@@ -96,7 +112,6 @@
                 if (document === thedoc) return;
 
                 this.anchor = testLink(thedoc);
-//    opener.console.log("_dvk_dbg_, click target: ", this.anchor);
                 if (!(eva.button) && this.anchor) {
                     themenu = document.getElementById("main-menu");
                     window.setTimeout( function(amenu) {
@@ -125,7 +140,7 @@
                 thenode = testLink(thenode.ownerDocument) || {};
             themenu = document.getElementById("context-copyemail");
             let thestr = "".concat(thenode.href || "");
-            if (thestr) {
+            if (thestr.length) {
                 this.href = thestr;
                 if (thestr.startsWith('mailto:')) {
                     thestr = thestr.replace('mailto:', '');
@@ -140,48 +155,71 @@
 
         (document.getElementById("context-copylink") || {}).hidden = !copylink;
         (document.getElementById("context-openlink") || {}).hidden = !copylink;
+        (document.getElementById("context-closedlg") || {}
+                    ).hidden = copylink || (thestr.length > 0);
     
             return;
         }
     };   //  nsContextMenu
 
 	var themain = {
-		content : "",
-        domain  : "",
+
+        domain  : ".", // baseURI
+        frame   : window.frames[0],
+        unset   : "transparent",
+
         handleEvent : function(anevt) {
+//            if (anevt.currentTarget === window) 
+            this.frame = anevt.target.querySelector("iframe[name]");
+            let thedoc = (this.frame || {}).contentDocument;
+            if (!thedoc) return;
 
-            if (anevt.currentTarget === window) {
+            window.setTimeout( function() {
 
-                let theframe = anevt.target.querySelector("iframe[name]") || {};
-                let thedoc = (theframe || {}).contentDocument;
-                if (!thedoc) return;
+                [ "top", "left", "margin" ].forEach(
+                    function(anattr) { this.style[anattr] = 0 }, 
+                        themain.frame );
 
-                window.setTimeout( function(aframe) {
-                    themain.doFinish(aframe);
-                    [ "top", "left", "margin" ].forEach(
-                        function(anattr) { this.style[anattr] = 0 }, aframe );
-                }, 0, theframe );
-                thedoc.documentElement.innerHTML = this.content;
-                anevt.currentTarget.removeEventListener(anevt.type, this, false);
+                let themenu = document.getElementById("main-menu");
+                if (!themenu) return;
+
+                nsContextMenu.initialize(themenu);
+                themenu.addEventListener( "popuphidden", function() {
+                    nsContextMenu.menu = false;
+                    document.addEventListener( "click", nsContextMenu, false );
+                    nsContextMenu.href = "";
+                }, false );
+
+                themenu = themenu.querySelector("menupopup.submenu");
+                themenu.addEventListener( "command", function(eva) {
+                    let thedoc = themain.frame.contentDocument;
+                    let theclr = eva.target.value || themain.unset;
+//    window.opener.console.log("_dvk_dbg_, menu command: ", eva);
+                    if (thedoc.body.style["backgroundColor"])
+                            thedoc.body.style["backgroundColor"] = theclr;
+                        else 
+                            thedoc.body.style["background"] = theclr;
+                    }, false );
+
+                themenu = themenu.querySelector("menuitem[name]");
+                let thestr = themenu.getAttribute("name") || "color";
+                for (themenu of themenu.parentNode.children) 
+                    themenu.setAttribute("name", thestr);
 
                 return;
-            }   //  load event
-
-            //  popuphidden of menu
-            nsContextMenu.menu = false;
-            document.addEventListener( "click", nsContextMenu, false );
-            nsContextMenu.href = "";
-//    window.opener.console.log("_dvk_dbg_, menu is hidden: ", anevt);
-            return;
-        },	//	handleEvent : function(anevt)
-
-        stateIsReady : function(adoc) {
+            }, 0 ); // window.setTimeout( function()
 
             window.setTimeout( function(adoc) {
                 adoc.addEventListener( "mouseover", nsContextMenu, false );
 //              adoc.addEventListener( "mouseout", nsContextMenu, false );
                 adoc.addEventListener( "focus", nsContextMenu, true );
-            }, 0, adoc);
+            }, 0, thedoc);
+
+            anevt.currentTarget.removeEventListener(anevt.type, this, false);    
+            return;
+        },	//	handleEvent : function(anevt)
+
+        stateIsReady : function(adoc) {
 
             let thestr = "".concat(adoc.baseURI || "about:");
             if (thestr.startsWith("about:") || thestr.startsWith("chrome:"))
@@ -201,47 +239,24 @@
                 }
             }
             adoc.body.style["padding"] = "1em";
-        },
-
-		doFinish : function(aframe) {
-            let themenu = document.getElementById("main-menu");
-            if (themenu) {
-                nsContextMenu.initialize(aframe, themenu);
-                themenu.addEventListener( "popuphidden", this, false );
-            }
-            let thedoc = aframe.contentDocument;
-			let thestr = (thedoc.readyState || "unready").toLowerCase();
-			if (LOAD_STAGES.indexOf(thestr) > 0)
-                this.stateIsReady(thedoc);
-            else
-                window.setTimeout( function(adoc) {
-                    themain.stateIsReady(adoc) }, 0, thedoc );
-//    window.opener.console.log("_dvk_dbg_, .readyState: ", thestr);
-		}
+            adoc.body.style["boxSizing"] = "border-box";
+            themain.unset = adoc.body.style["backgroundColor"] 
+                    || adoc.body.style["background"] || themain.unset;
+        }
 	}; //  var themain = {
 
-(function() {
-    let thestr = "";
-	let thebro = (window.opener || {}).gBrowser;
-	let thewin = (thebro || {}).contentWindow;
-	if (thewin) try {
-		thestr = thewin.sessionStorage.getItem(LIB_ISBN) || "";
-        thestr = thestr.trim();
-		if (thestr.length >> 1) {
-            themain.content = thestr;
-//		window.addEventListener( "message", themain, false );
-            window.addEventListener( "load", themain, false );
-		} else thestr = "";
+window.addEventListener("message", function(eva) {
+//    window.opener.console.log("_dvk_dbg_, from main code: ", themain.frame);
+    let theframe = themain.frame || document.querySelector("iframe[name]");
+    let thedoc = theframe.contentDocument, thestr = (eva.data || "").trim();
+    if (thedoc && (thestr.length >> 1)) {
+        thedoc.documentElement["innerHTML"] = thestr;
+        window.setTimeout( function(adoc) {
+            themain.stateIsReady(adoc) }, 0, thedoc );
+    }
+}, false);
 
-        themain.domain = window.arguments[0] || "";
-        if (!(themain.domain) && thewin.document)
-            themain.domain = thewin.document.baseURI ||
-                                thewin.document.domain || "";
-	}
-        catch(err) { thestr = "" }
-
-    if (!thestr) {
-		window.setTimeout(function() { window.close() }, 0 );
-		alert(document.querySelector("iframe[name]").srcdoc);
-	}
-}) ();
+ window.addEventListener( "load", themain, false );
+//  TODO: wait for content by window.setTimeout( .
+ themain.domain = window.arguments[0] || "http://*/";
+//  catch(err) { thestr = "" }

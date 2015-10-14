@@ -3,19 +3,19 @@
   "title": "Frozen View of Detached Target",
   "id": "targetout@code.google.com",
   "homepage": "http://github.com/kannoner/targetout/",
-  "description": "Button to view only one target of page if it is FRAME, DIV or TABLE node.",
+  "description": "The button to view only one target of the page if that is boxable tag.",
   "author": "kannoner@gmail.com",
   "preferences-branch": "targetout",
    "preferences": [
   {
    "name": "dependentdlg", 
-   "title": "Snippet Window is Bound to Sender", 
+   "title": "A Sub View is Bound to a Browser", 
    "type": "bool", 
    "value": false
   }, 
   {
    "name": "frozenview", 
-   "title": "Removes All Scripts Tags", 
+   "title": "Sub Window without Scripts Tags", 
    "type": "bool", 
    "value": true
   }, 
@@ -27,7 +27,7 @@
   }, 
   {
    "name": "click2hash", 
-   "title": "Target of Click to Target of Page", 
+   "title": "Target of Click to Hash of Page", 
    "type": "bool", 
    "value": false
   }, 
@@ -41,5 +41,5 @@
  ], 
   "icon64": "hash64.png",
   "license": "MPL 2.0",
-  "version": "0.1"
+  "version": "0.1.1"
 }

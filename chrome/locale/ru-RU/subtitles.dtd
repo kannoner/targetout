@@ -1,0 +1,15 @@
+<!ENTITY bodyColor.label "Краска фона">
+<!ENTITY bodyColor.accesskey "ф">
+<!ENTITY radioBlack.tooltip "черный">
+<!ENTITY radioUnset.tooltip "прозрачный">
+<!ENTITY radioWhite.tooltip "белый">
+<!ENTITY nickName.title "Извлечение и просмотр куска.">
+<!ENTITY chromeName.title "Документ закладки сплошной 'хром'.">
+<!ENTITY aboutDlg.tooltip "замечание по выполненному действию">
+<!ENTITY dependentDlg.title "Подокно привязано к браузеру (источнику)">
+<!ENTITY dependentDlg.desc "Подчиненный вид закрывается и минимизируется вместе с окном браузера.">
+<!ENTITY frozenView.title "Вид без скриптов">
+<!ENTITY frozenView.desc "Удалять все тэги SCRIPT и (I)FRAME.">
+<!ENTITY prior4sel.title "Преференция выделенного фрагмента">
+<!ENTITY prior4sel.desc "Целевым будет выделеннй фрагмент а не хэш (#hash) страницы.">
+<!ENTITY click2hash.title "Менять мишень страницы по клику">

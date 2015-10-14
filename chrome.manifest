@@ -1,2 +1,4 @@
 content   targetout     chrome/content/
 skin      targetout     classic/1.0   chrome/skin/
+locale    targetout	en-US   chrome/locale/en-US/
+locale    targetout	ru-RU   chrome/locale/ru-RU/

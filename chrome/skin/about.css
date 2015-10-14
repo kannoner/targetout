@@ -1,0 +1,30 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+dialog[windowtype] {
+  padding: 0px;
+  min-height: 272px;
+  max-height: 400px;
+  width: 30em;
+}
+
+separator.groove {
+    margin-top: 8px;
+}
+vbox#extensionDetailsBox[flex] {
+    overflow: hidden;
+    min-height: 1em;
+}
+
+vbox.boxIndent:empty {
+    visibility: collapse;
+}
+
+hbox.dialog-button-box {
+    background: linear-gradient(to top right, InfoBackground, transparent);
+}
+
+hbox.resizer {
+    background: linear-gradient(to right, InfoBackground, InfoBackground, transparent);
+}
