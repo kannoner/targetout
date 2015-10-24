@@ -71,7 +71,6 @@
     <menuitem id="context-closedlg"
         label="&closeCmd.label;"
         key="key_close"
-        accesskey="&closeCmd.accesskey;"
         command="cmd_close" />
 </menupopup>
 

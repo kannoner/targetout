@@ -6,55 +6,43 @@
 
 "use strict";
 
-var addon = {};
-Components.utils.import("resource://gre/modules/AddonManager.jsm");
-AddonManager.getAddonByID( "targetout@code.google.com", 
-                 function(anaddon) { addon = anaddon } );
+var counter = 0;
 
-function init(adlg) {
-//  var addon = window.arguments[0];
-//    thenode.insertBefore( document.querySelector("resizer[type]"), thenode.firstElementChild);
-//  
-    var thelist = Object.getOwnPropertyNames(addon) || [];
-    if (adlg) {
-        var thebtn = document.documentElement.getButton("accept");
-        thebtn.parentNode.appendChild(document.querySelector("hbox.resizer"));
-        if (thelist.length > 1) {
-            window.setTimeout( function() { init() }, 1 );
-            return;
-        }
-    }
+function init(anaddon) {
+
+  var thenode = document.getElementById("main-menu").firstElementChild;
+  var thebtn = document.documentElement.getButton("accept");
+  thebtn.parentNode.appendChild(document.querySelector("hbox.resizer"));
+    thebtn.tooltipText = thenode.getAttribute("acceltext") || "";
     
   var extensionsStrings = document.getElementById("extensionsStrings");
 
-  document.documentElement.setAttribute("addontype", addon.type);
+  document.documentElement.setAttribute("addontype", anaddon.type);
 
-  if (addon.iconURL) {
+  if (anaddon.iconURL) {
     var extensionIcon = document.getElementById("extensionIcon");
-    extensionIcon.src = addon.iconURL;
+    extensionIcon.src = anaddon.iconURL;
   }
 
-  document.title = extensionsStrings.getFormattedString("aboutWindowTitle", [addon.name]);
+  document.title = extensionsStrings.getFormattedString("aboutWindowTitle", [ anaddon.name ]);
   var extensionName = document.getElementById("extensionName");
-  extensionName.textContent = addon.name;
+  extensionName.textContent = anaddon.name;
 
   var extensionVersion = document.getElementById("extensionVersion");
-  if (addon.version)
-    extensionVersion.setAttribute("value", extensionsStrings.getFormattedString("aboutWindowVersionString", [addon.version]));
-  else
-    extensionVersion.hidden = true;
+  if (anaddon.version) extensionVersion.setAttribute( 
+        "value", extensionsStrings.getFormattedString(
+            "aboutWindowVersionString", [anaddon.version]));
+    else extensionVersion.hidden = true;
 
   var extensionDescription = document.getElementById("extensionDescription");
-  if (addon.description)
-    extensionDescription.textContent = addon.description;
-  else
-    extensionDescription.hidden = true;
+  if (anaddon.description) extensionDescription.textContent = anaddon.description;
+        else extensionDescription.hidden = true;
 
   var numDetails = 0;
 
   var extensionCreator = document.getElementById("extensionCreator");
-  if (addon.creator) {
-    extensionCreator.setAttribute("value", addon.creator);
+  if (anaddon.creator) {
+    extensionCreator.setAttribute("value", anaddon.creator);
     numDetails++;
   } else {
     extensionCreator.hidden = true;
@@ -63,7 +51,7 @@ function init(adlg) {
   }
 
   var extensionHomepage = document.getElementById("extensionHomepage");
-  var homepageURL = addon.homepageURL;
+  var homepageURL = anaddon.homepageURL;
   if (homepageURL) {
     extensionHomepage.setAttribute("homepageURL", homepageURL);
     extensionHomepage.setAttribute("tooltiptext", homepageURL);
@@ -71,9 +59,9 @@ function init(adlg) {
   } 
     else extensionHomepage.hidden = true;
 
-  numDetails += appendToList("extensionDevelopers", "developersBox", addon.developers);
-  numDetails += appendToList("extensionTranslators", "translatorsBox", addon.translators);
-  numDetails += appendToList("extensionContributors", "contributorsBox", addon.contributors);
+  numDetails += appendToList("extensionDevelopers", "developersBox", anaddon.developers);
+  numDetails += appendToList("extensionTranslators", "translatorsBox", anaddon.translators);
+  numDetails += appendToList("extensionContributors", "contributorsBox", anaddon.contributors);
 
   var extensionDetailsBox = document.getElementById("extensionDetailsBox");
   if (numDetails == 0) extensionDetailsBox.hidden = true;
@@ -81,7 +69,7 @@ function init(adlg) {
   var acceptButton = document.documentElement.getButton("accept");
   acceptButton.label = extensionsStrings.getString("aboutWindowCloseButton");
   
-  setTimeout(sizeToContent, 0);
+  setTimeout( function() { sizeToContent() }, 0 );
 }   //  function init() {
 
 function appendToList(aHeaderId, aNodeId, aItems) {
@@ -104,6 +92,16 @@ function appendToList(aHeaderId, aNodeId, aItems) {
 }
 
 function loadHomepage(aEvent) {
-  window.close();
-  openURL(aEvent.target.getAttribute("homepageURL"));
+    setTimeout( function() { window.close() }, 0 );
+    openURL(aEvent.target.getAttribute("homepageURL"));
 }
+
+Components.utils.import("resource://gre/modules/AddonManager.jsm");
+AddonManager.getAddonByID( "targetout@code.google.com", 
+    function(anaddon) {
+        if (++counter >> 1) init(anaddon);
+        else window.onload = function() {
+                    window.setTimeout( function(anaddon) 
+                        { init(anaddon) }, 0, anaddon )
+            }
+    } );    //  AddonManager.getAddonByID

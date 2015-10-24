@@ -12,4 +12,4 @@
 <!ENTITY frozenView.desc "Удалять все тэги SCRIPT и (I)FRAME.">
 <!ENTITY prior4sel.title "Преференция выделенного фрагмента">
 <!ENTITY prior4sel.desc "Целевым будет выделеннй фрагмент а не хэш (#hash) страницы.">
-<!ENTITY click2hash.title "Менять мишень страницы по клику">
+<!ENTITY click2hash.title "Мишень контекстного меню">

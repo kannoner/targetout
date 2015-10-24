@@ -176,9 +176,10 @@
 
             window.setTimeout( function() {
 
-                [ "top", "left", "margin" ].forEach(
-                    function(anattr) { this.style[anattr] = 0 }, 
-                        themain.frame );
+//                [ "top", "left", "margin" ].forEach(
+                let attr, thestyle = themain.frame.style;
+                for (attr of [ "top", "left", "margin" ])
+                     thestyle[attr] = 0;
 
                 let themenu = document.getElementById("main-menu");
                 if (!themenu) return;
@@ -221,10 +222,11 @@
 
         stateIsReady : function(adoc) {
 
-            let thestr = "".concat(adoc.baseURI || "about:");
+            let thenode = adoc.querySelector("base"),
+                thestr = "".concat(adoc.baseURI || "about:");
             if (thestr.startsWith("about:") || thestr.startsWith("chrome:"))
             if (this.domain && adoc.head) {
-                let thenode = adoc.querySelector("base");
+
                 if (!thenode) {
                     thenode = adoc.createElement("base");
                     thenode = adoc.head.appendChild(thenode);
@@ -238,10 +240,21 @@
                     thenode.setAttribute("href", thestr);
                 }
             }
-            adoc.body.style["padding"] = "1em";
-            adoc.body.style["boxSizing"] = "border-box";
-            themain.unset = adoc.body.style["backgroundColor"] 
-                    || adoc.body.style["background"] || themain.unset;
+            
+            let thebody = adoc.body;
+            let thestyle = (thebody || {}).style;
+            if (thestyle) {
+ [ thestyle["padding"], thestyle["boxSizing"] ] = [ "1em", "border-box" ];
+                themain.unset = thestyle["backgroundColor"] 
+                        || thestyle["background"] || themain.unset;
+
+                thenode = thebody.firstElementChild;
+                if (thenode)
+                if (thenode === thebody.lastElementChild) 
+                    thenode.style["boxSizing"] = "border-box";
+//                    for (thestr of ["top", "left"])
+  //                      thenode.style[thestr] = "1ex";
+            }
         }
 	}; //  var themain = {
 

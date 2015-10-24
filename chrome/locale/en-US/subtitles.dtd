@@ -12,4 +12,4 @@
 <!ENTITY frozenView.desc "The SCRIPT and IFRAME tags are erased from the view.">
 <!ENTITY prior4sel.title "Selected Node as Target">
 <!ENTITY prior4sel.desc "Prefers a selected node to the target (#hash) of the page.">
-<!ENTITY click2hash.title "Target of Click to Hash of Page">
+<!ENTITY click2hash.title "Target of Context Menu">

@@ -21,7 +21,7 @@
   <setting type="bool" pref="extensions.targetout.click2hash" 
     dir="reverse" pref-name="click2hash" class="targetout" 
 			title="&click2hash.title;" 
-	desc="Google Map and Video interest it (experimental, instability), it is inactive if the button is hidden." />
+	desc="Tne context menu is opened and the button is hovered." />
 
    <setting disabled="true" type="control" hidden="true" title="It is hidden control.">
       <image src="chrome://targetout/skin/transparent.png" />

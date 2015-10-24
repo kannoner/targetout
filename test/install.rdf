@@ -16,7 +16,7 @@
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>31.0</em:minVersion>
+        <em:minVersion>32.0</em:minVersion>
         <em:maxVersion>43.*</em:maxVersion>
       </Description>
     </em:targetApplication>
@@ -33,6 +33,8 @@
         <em:locale>en-US</em:locale>
 		<em:name>Frozen View of Detached Target</em:name>
         <em:description>The button to view only one target of the page if that is boxable tag.</em:description>
+		<em:creator>kannoner@gmail.com</em:creator>
+		<em:homepageURL>http://github.com/kannoner/targetout/</em:homepageURL>
       </Description>
     </em:localized>
 	<em:localized>
@@ -40,6 +42,8 @@
         <em:locale>ru-RU</em:locale>
 		<em:name>Frozen View of Detached Target</em:name>
         <em:description>Кнопка для просмотра только целевого куска страницы если он контейнер.</em:description>
+		<em:creator>kannoner@gmail.com</em:creator>
+		<em:homepageURL>http://github.com/kannoner/targetout/</em:homepageURL>
       </Description>
     </em:localized>
 

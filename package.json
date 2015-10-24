@@ -27,19 +27,19 @@
   }, 
   {
    "name": "click2hash", 
-   "title": "Target of Click to Hash of Page", 
+   "title": "Target of Context Menu", 
    "type": "bool", 
-   "value": false
+   "value": true
   }, 
   {
    "hidden": true, 
    "name": "boxabletags", 
    "title": "It lists type of nodes are container.", 
    "type": "string", 
-   "value": "table div p article footer header section"
+   "value": "table div p article footer header section aside"
   }
  ], 
   "icon64": "hash64.png",
   "license": "MPL 2.0",
-  "version": "0.1.1"
+  "version": "0.2.0"
 }
